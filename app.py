@@ -136,6 +136,7 @@ DEFAULTS = {
     "auto_send": False, "search_history": [],
     "pending_file": None, "pending_file_name": "", "pending_file_type": "",
     "tts_enabled": True, "voice_lang": "🇧🇩 Bengali (bn-BD)",
+    "tts_pending": None, "tts_lang_pending": "en-US",
 }
 for k, v in DEFAULTS.items():
     if k not in st.session_state:
@@ -257,6 +258,35 @@ with main_col:
         </div>
         <div class='online-pill'><div class='online-dot'></div>ONLINE</div>
     </div>""", unsafe_allow_html=True)
+
+    # ── AUTO TTS AFTER RERUN ─────────────────────────
+    if st.session_state.get("tts_pending") and st.session_state.get("tts_enabled", True):
+        _tts_text = st.session_state["tts_pending"]
+        _tts_lang = st.session_state.get("tts_lang_pending", "en-US")
+        _tts_text = _tts_text.replace("\\", "").replace('"', "'").replace('\n', ' ')
+        _tts_html = f"""
+        <script>
+        (function() {{
+            function speakNow() {{
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(`{_tts_text}`);
+                u.lang = '{_tts_lang}';
+                u.rate = 1.05;
+                u.pitch = 1.0;
+                u.volume = 1.0;
+                window.speechSynthesis.speak(u);
+            }}
+            // Small delay to let page settle after rerun
+            if (document.readyState === 'complete') {{
+                setTimeout(speakNow, 400);
+            }} else {{
+                window.addEventListener('load', () => setTimeout(speakNow, 400));
+            }}
+        }})();
+        </script>
+        """
+        components.html(_tts_html, height=0)
+        st.session_state["tts_pending"] = None  # clear after playing
 
     # STATS
     if st.session_state.messages:
@@ -417,29 +447,24 @@ with main_col:
     # ── VOICE INPUT COMPONENT ────────────────────────
     voice_lang_code = get_voice_lang_code()
     voice_html = f"""
-    <div style="display:flex;align-items:center;gap:12px;margin:8px 0 4px 0;">
+    <div style="display:flex;align-items:center;gap:14px;margin:8px 0 4px 0;flex-wrap:wrap;">
         <button id="voiceBtn" onclick="toggleVoice()" style="
             background:linear-gradient(135deg,#7c5cbf,#a855f7);
-            border:none;border-radius:12px;padding:10px 22px;
+            border:none;border-radius:14px;padding:12px 26px;
             color:white;font-family:'Space Mono',monospace;
-            font-size:.7rem;letter-spacing:2px;cursor:pointer;
-            box-shadow:0 4px 16px rgba(124,92,191,.4);
-            transition:all .25s ease;
+            font-size:.75rem;letter-spacing:2px;cursor:pointer;
+            box-shadow:0 4px 20px rgba(124,92,191,.5);
+            transition:all .25s ease;font-weight:700;
         ">🎤 &nbsp;SPEAK</button>
-        <span id="voiceStatus" style="
-            font-family:'Space Mono',monospace;font-size:.58rem;
-            color:#2dd4bf;letter-spacing:2px;display:none;
-        ">● LISTENING...</span>
-        <span id="voiceText" style="
-            font-family:'Space Mono',monospace;font-size:.6rem;
-            color:#f5a623;letter-spacing:1px;max-width:300px;
-            white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-        "></span>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+            <span id="voiceStatus" style="font-family:'Space Mono',monospace;font-size:.6rem;color:#2dd4bf;letter-spacing:2px;display:none;">● LISTENING...</span>
+            <span id="voiceText" style="font-family:'Space Mono',monospace;font-size:.65rem;color:#f5a623;letter-spacing:1px;max-width:400px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></span>
+            <span id="voiceSending" style="font-family:'Space Mono',monospace;font-size:.6rem;color:#a855f7;letter-spacing:2px;display:none;">⚡ SENDING...</span>
+        </div>
     </div>
     <div style="font-family:'Space Mono',monospace;font-size:.48rem;color:#2e2e50;letter-spacing:1px;margin-bottom:6px;">
-        ⚠ Chrome / Edge browser required for voice · Language: {voice_lang_code}
+        🎤 বলুন → Auto Send → 🔊 উত্তর শুনুন &nbsp;|&nbsp; Chrome required &nbsp;|&nbsp; Lang: {voice_lang_code}
     </div>
-
     <script>
     let recognition = null;
     let listening = false;
@@ -447,13 +472,10 @@ with main_col:
     function toggleVoice() {{
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRecognition) {{
-            alert('❌ Voice not supported. Please use Chrome or Edge browser.');
+            alert('❌ Voice not supported. Use Chrome browser.');
             return;
         }}
-        if (listening) {{
-            recognition.stop();
-            return;
-        }}
+        if (listening) {{ recognition.stop(); return; }}
 
         recognition = new SpeechRecognition();
         recognition.continuous = false;
@@ -462,69 +484,70 @@ with main_col:
 
         recognition.onstart = () => {{
             listening = true;
-            const btn = document.getElementById('voiceBtn');
-            btn.textContent = '⏹  STOP';
-            btn.style.background = 'linear-gradient(135deg,#ef4444,#dc2626)';
-            btn.style.boxShadow = '0 4px 16px rgba(239,68,68,.5)';
+            document.getElementById('voiceBtn').innerHTML = '⏹ &nbsp;STOP';
+            document.getElementById('voiceBtn').style.background = 'linear-gradient(135deg,#ef4444,#dc2626)';
             document.getElementById('voiceStatus').style.display = 'inline';
             document.getElementById('voiceText').textContent = '';
+            document.getElementById('voiceSending').style.display = 'none';
         }};
 
         recognition.onresult = (e) => {{
-            let interim = '';
-            let final = '';
+            let interim = '', final_text = '';
             for (let i = e.resultIndex; i < e.results.length; i++) {{
-                if (e.results[i].isFinal) {{
-                    final += e.results[i][0].transcript;
-                }} else {{
-                    interim += e.results[i][0].transcript;
-                }}
+                if (e.results[i].isFinal) final_text += e.results[i][0].transcript;
+                else interim += e.results[i][0].transcript;
             }}
-            document.getElementById('voiceText').textContent = final || interim;
+            document.getElementById('voiceText').textContent = final_text || interim;
 
-            if (final) {{
-                // Inject into Streamlit text input
+            if (final_text) {{
                 try {{
-                    const inputs = window.parent.document.querySelectorAll('input[type="text"]');
+                    const doc = window.parent.document;
+                    const inputs = doc.querySelectorAll('input[type="text"]');
+                    let targetInput = null;
                     inputs.forEach(inp => {{
-                        if (inp.placeholder && inp.placeholder.toLowerCase().includes('sanju')) {{
-                            const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
-                            nativeInputValueSetter.call(inp, final);
-                            inp.dispatchEvent(new Event('input', {{ bubbles: true }}));
-                            inp.dispatchEvent(new Event('change', {{ bubbles: true }}));
-                        }}
+                        if (inp.placeholder && inp.placeholder.toLowerCase().includes('sanju')) targetInput = inp;
                     }});
-                }} catch(err) {{
-                    console.warn('Could not inject voice text:', err);
-                }}
+                    if (targetInput) {{
+                        const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+                        nativeSetter.call(targetInput, final_text);
+                        targetInput.dispatchEvent(new Event('input', {{ bubbles: true }}));
+                        targetInput.dispatchEvent(new Event('change', {{ bubbles: true }}));
+                        document.getElementById('voiceStatus').style.display = 'none';
+                        document.getElementById('voiceSending').style.display = 'inline';
+                        setTimeout(() => {{
+                            const buttons = doc.querySelectorAll('button');
+                            buttons.forEach(b => {{
+                                if (b.textContent.trim().includes('Send') || b.textContent.trim().includes('↑')) b.click();
+                            }});
+                            document.getElementById('voiceSending').style.display = 'none';
+                        }}, 700);
+                    }}
+                }} catch(err) {{ console.warn('Voice inject error:', err); }}
             }}
         }};
 
         recognition.onend = () => {{
             listening = false;
-            const btn = document.getElementById('voiceBtn');
-            btn.textContent = '🎤  SPEAK';
-            btn.style.background = 'linear-gradient(135deg,#7c5cbf,#a855f7)';
-            btn.style.boxShadow = '0 4px 16px rgba(124,92,191,.4)';
+            document.getElementById('voiceBtn').innerHTML = '🎤 &nbsp;SPEAK';
+            document.getElementById('voiceBtn').style.background = 'linear-gradient(135deg,#7c5cbf,#a855f7)';
             document.getElementById('voiceStatus').style.display = 'none';
         }};
 
         recognition.onerror = (e) => {{
             listening = false;
-            const btn = document.getElementById('voiceBtn');
-            btn.textContent = '🎤  SPEAK';
-            btn.style.background = 'linear-gradient(135deg,#7c5cbf,#a855f7)';
+            document.getElementById('voiceBtn').innerHTML = '🎤 &nbsp;SPEAK';
+            document.getElementById('voiceBtn').style.background = 'linear-gradient(135deg,#7c5cbf,#a855f7)';
             document.getElementById('voiceStatus').style.display = 'none';
-            if (e.error !== 'no-speech') {{
-                alert('Mic error: ' + e.error + '\\nMake sure microphone permission is allowed.');
-            }}
+            document.getElementById('voiceSending').style.display = 'none';
+            if (e.error === 'network') alert('❌ Chrome browser ব্যবহার করো।');
+            else if (e.error !== 'no-speech') alert('Mic error: ' + e.error);
         }};
 
         recognition.start();
     }}
     </script>
     """
-    components.html(voice_html, height=80)
+    components.html(voice_html, height=90)
 
     # INPUT ROW
     st.markdown("<div style='height:4px'></div>", unsafe_allow_html=True)
@@ -714,29 +737,12 @@ with main_col:
             st.session_state.messages.append(("assistant", reply, None, rl))
             st.session_state.response_times.append(elapsed)
 
-            # ── VOICE OUTPUT (TTS) ──────────────────────
+            # ── STORE TTS → play after rerun ────────────
             if st.session_state.get("tts_enabled", True):
                 tts_lang = "bn-BD" if rl == "BN" else "en-US"
-                clean_reply = re.sub(r'[#*`_~<>\[\]()]', '', reply)[:400]
-                clean_reply = clean_reply.replace('"', '\\"').replace('\n', ' ')
-                tts_html = f"""
-                <script>
-                (function() {{
-                    try {{
-                        window.speechSynthesis.cancel();
-                        const u = new SpeechSynthesisUtterance("{clean_reply}");
-                        u.lang = '{tts_lang}';
-                        u.rate = 1.05;
-                        u.pitch = 1.0;
-                        u.volume = 1.0;
-                        window.speechSynthesis.speak(u);
-                    }} catch(e) {{
-                        console.warn('TTS error:', e);
-                    }}
-                }})();
-                </script>
-                """
-                components.html(tts_html, height=0)
+                clean_reply = re.sub(r'[#*`_~<>\[\]()]', '', reply)[:500]
+                st.session_state["tts_pending"] = clean_reply
+                st.session_state["tts_lang_pending"] = tts_lang
 
             st.rerun()
 
