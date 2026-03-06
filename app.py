@@ -47,7 +47,6 @@ html,body,.stApp { background:var(--bg-void)!important; font-family:'Outfit','No
               radial-gradient(ellipse 60% 50% at 90% 100%,rgba(245,166,35,.08) 0%,transparent 60%);
   pointer-events:none; z-index:0; }
 
-/* HEADER */
 .sanju-header { display:flex; align-items:center; gap:18px; padding:24px 4px 18px; border-bottom:1px solid var(--border-mid); margin-bottom:20px; position:relative; z-index:2; }
 .sanju-emblem { position:relative; width:52px; height:52px; flex-shrink:0; }
 .sanju-emblem-ring { position:absolute; inset:0; border-radius:14px; border:1.5px solid rgba(245,166,35,.5); animation:ringPulse 3s ease-in-out infinite; }
@@ -60,14 +59,12 @@ html,body,.stApp { background:var(--bg-void)!important; font-family:'Outfit','No
 .online-dot { width:6px; height:6px; background:var(--teal); border-radius:50%; box-shadow:0 0 8px var(--teal); animation:blinkDot 2s ease-in-out infinite; }
 @keyframes blinkDot { 0%,100%{opacity:1;} 50%{opacity:.2;} }
 
-/* STATS */
 .stats-bar { display:flex; background:var(--bg-card); border:1px solid var(--border-mid); border-radius:var(--r-md); margin-bottom:16px; overflow:hidden; z-index:2; position:relative; }
 .stat-item { flex:1; padding:10px 14px; border-right:1px solid var(--border-dim); display:flex; flex-direction:column; gap:2px; }
 .stat-item:last-child { border-right:none; }
 .stat-label { font-family:'Space Mono',monospace; font-size:.5rem; color:var(--text-2); letter-spacing:2px; text-transform:uppercase; }
 .stat-value { font-size:.8rem; font-weight:700; color:var(--amber); }
 
-/* MESSAGES */
 .msg-wrap { display:flex; gap:12px; margin:14px 0; animation:fadeUp .4s cubic-bezier(.16,1,.3,1) both; position:relative; z-index:2; }
 .msg-wrap.user-wrap { flex-direction:row-reverse; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px) scale(.98);} to{opacity:1;transform:none;} }
@@ -83,7 +80,10 @@ html,body,.stApp { background:var(--bg-void)!important; font-family:'Outfit','No
 .attach-badge { display:inline-block; background:rgba(245,166,35,.08); border:1px solid rgba(245,166,35,.2); border-radius:8px; padding:4px 10px; font-family:'Space Mono',monospace; font-size:.6rem; color:var(--amber); margin-bottom:8px; }
 .lang-badge { display:inline-block; font-family:'Space Mono',monospace; font-size:.5rem; color:var(--teal); background:rgba(45,212,191,.08); border:1px solid rgba(45,212,191,.2); border-radius:6px; padding:2px 8px; letter-spacing:1px; margin-left:8px; }
 
-/* THINKING */
+/* TYPEWRITER CURSOR */
+.typing-cursor { display:inline-block; width:2px; height:1em; background:var(--amber); margin-left:2px; animation:cursorBlink .7s ease-in-out infinite; vertical-align:text-bottom; }
+@keyframes cursorBlink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
 .thinking-wrap { display:flex; gap:12px; margin:16px 0; position:relative; z-index:2; animation:fadeUp .3s ease both; }
 .thinking-bubble { background:var(--bg-card); border:1px solid rgba(245,166,35,.15); border-radius:20px; border-top-left-radius:4px; padding:16px 20px; max-width:70%; }
 .thinking-header { font-family:'Space Mono',monospace; font-size:.52rem; color:var(--amber); letter-spacing:2px; text-transform:uppercase; margin-bottom:12px; }
@@ -95,7 +95,6 @@ html,body,.stApp { background:var(--bg-void)!important; font-family:'Outfit','No
 .shimmer-line { height:2px; background:linear-gradient(90deg,transparent,var(--amber),var(--teal),transparent); background-size:200% 100%; border-radius:99px; margin-top:10px; animation:shimmer 1.8s linear infinite; }
 @keyframes shimmer { from{background-position:200% 0;}to{background-position:-200% 0;} }
 
-/* WELCOME */
 .welcome-wrap { text-align:center; padding:36px 0 22px; position:relative; z-index:2; }
 .welcome-logo { font-size:3.2rem; margin-bottom:14px; display:block; animation:floatLogo 4s ease-in-out infinite; filter:drop-shadow(0 0 20px rgba(245,166,35,.6)); }
 @keyframes floatLogo { 0%,100%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-10px) rotate(3deg);} }
@@ -104,24 +103,19 @@ html,body,.stApp { background:var(--bg-void)!important; font-family:'Outfit','No
 .starters-label { font-family:'Space Mono',monospace; font-size:.56rem; color:var(--text-3); letter-spacing:3px; text-transform:uppercase; margin-bottom:10px; }
 .history-label { font-family:'Space Mono',monospace; font-size:.5rem; color:var(--text-3); letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; }
 
-/* INPUT */
 .stTextInput input { background:var(--bg-elevated)!important; border:1px solid var(--border-mid)!important; border-radius:var(--r-md)!important; color:var(--text-0)!important; font-family:'Outfit','Noto Sans Bengali',sans-serif!important; font-size:.95rem!important; transition:all .25s!important; caret-color:var(--amber)!important; padding:12px 18px!important; }
 .stTextInput input:focus { border-color:rgba(245,166,35,.4)!important; box-shadow:0 0 0 3px rgba(245,166,35,.07),0 4px 20px rgba(0,0,0,.3)!important; }
 .stTextInput input::placeholder { color:var(--text-3)!important; }
 
-/* BUTTONS */
 .stButton>button { background:linear-gradient(135deg,#f5a623,#d4880a)!important; color:#000!important; border:none!important; border-radius:var(--r-sm)!important; font-family:'Outfit',sans-serif!important; font-weight:800!important; font-size:.88rem!important; transition:all .2s!important; box-shadow:0 4px 16px rgba(245,166,35,.3)!important; }
 .stButton>button:hover { transform:translateY(-2px)!important; box-shadow:0 8px 28px rgba(245,166,35,.45)!important; }
 
-/* SIDEBAR */
 [data-testid="stSidebar"] { background:var(--bg-panel)!important; border-right:1px solid var(--border-mid)!important; }
 [data-testid="stSidebar"] .stMarkdown h2,[data-testid="stSidebar"] .stMarkdown h3 { color:var(--text-0)!important; font-family:'Outfit',sans-serif!important; font-weight:700!important; }
 [data-testid="stSidebar"] label,[data-testid="stSidebar"] p { color:var(--text-1)!important; font-family:'Space Mono',monospace!important; font-size:.68rem!important; }
 
-/* FILE UPLOADER */
 [data-testid="stFileUploader"] { background:rgba(245,166,35,.03)!important; border:1.5px dashed rgba(245,166,35,.2)!important; border-radius:var(--r-md)!important; }
 
-/* MISC */
 code { background:rgba(245,166,35,.07)!important; border:1px solid rgba(245,166,35,.14)!important; border-radius:6px!important; padding:2px 7px!important; font-family:'Space Mono',monospace!important; color:var(--amber)!important; font-size:.8em!important; }
 hr { border-color:var(--border-dim)!important; margin:0!important; }
 ::-webkit-scrollbar { width:4px; } ::-webkit-scrollbar-thumb { background:var(--border-mid); border-radius:99px; }
@@ -137,6 +131,7 @@ DEFAULTS = {
     "pending_file": None, "pending_file_name": "", "pending_file_type": "",
     "tts_enabled": True, "voice_lang": "🇧🇩 Bengali (bn-BD)",
     "tts_pending": None, "tts_lang_pending": "en-US",
+    "voice_injected": "", "last_voice_msg": "",
 }
 for k, v in DEFAULTS.items():
     if k not in st.session_state:
@@ -259,34 +254,48 @@ with main_col:
         <div class='online-pill'><div class='online-dot'></div>ONLINE</div>
     </div>""", unsafe_allow_html=True)
 
-    # ── AUTO TTS AFTER RERUN ─────────────────────────
+    # ── TTS PLAYER (runs after rerun, visible height so browser allows audio) ──
     if st.session_state.get("tts_pending") and st.session_state.get("tts_enabled", True):
         _tts_text = st.session_state["tts_pending"]
         _tts_lang = st.session_state.get("tts_lang_pending", "en-US")
-        _tts_text = _tts_text.replace("\\", "").replace('"', "'").replace('\n', ' ')
+        # Escape for JS
+        _tts_text = _tts_text.replace("\\", "\\\\").replace("`", "'").replace('\n', ' ').replace('"', "'")
+        _tts_text = _tts_text[:600]  # limit length
         _tts_html = f"""
+        <div id="ttsBox" style="background:rgba(45,212,191,0.06);border:1px solid rgba(45,212,191,0.2);border-radius:10px;padding:8px 16px;font-family:'Space Mono',monospace;font-size:.6rem;color:#2dd4bf;letter-spacing:2px;display:flex;align-items:center;gap:10px;">
+            <span style="animation:blinkDot 1s infinite;display:inline-block;width:6px;height:6px;background:#2dd4bf;border-radius:50%;"></span>
+            <span id="ttsLabel">🔊 SPEAKING...</span>
+            <button onclick="window.speechSynthesis.cancel();document.getElementById('ttsBox').style.opacity='0.3';document.getElementById('ttsLabel').textContent='⏹ STOPPED';" style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);border-radius:6px;color:#ef4444;font-size:.55rem;padding:2px 8px;cursor:pointer;font-family:'Space Mono',monospace;">STOP</button>
+        </div>
         <script>
         (function() {{
             function speakNow() {{
                 window.speechSynthesis.cancel();
                 const u = new SpeechSynthesisUtterance(`{_tts_text}`);
                 u.lang = '{_tts_lang}';
-                u.rate = 1.05;
+                u.rate = 1.0;
                 u.pitch = 1.0;
                 u.volume = 1.0;
+                u.onend = function() {{
+                    const box = document.getElementById('ttsBox');
+                    if (box) {{ box.style.opacity = '0.4'; document.getElementById('ttsLabel').textContent = '✔ DONE'; }}
+                }};
+                u.onerror = function(e) {{
+                    const box = document.getElementById('ttsBox');
+                    if (box) document.getElementById('ttsLabel').textContent = '❌ TTS ERROR: ' + e.error;
+                }};
                 window.speechSynthesis.speak(u);
             }}
-            // Small delay to let page settle after rerun
             if (document.readyState === 'complete') {{
-                setTimeout(speakNow, 400);
+                setTimeout(speakNow, 300);
             }} else {{
-                window.addEventListener('load', () => setTimeout(speakNow, 400));
+                window.addEventListener('load', () => setTimeout(speakNow, 300));
             }}
         }})();
         </script>
         """
-        components.html(_tts_html, height=0)
-        st.session_state["tts_pending"] = None  # clear after playing
+        components.html(_tts_html, height=50)
+        st.session_state["tts_pending"] = None
 
     # STATS
     if st.session_state.messages:
@@ -420,134 +429,132 @@ with main_col:
                         extracted_text = "\n\n".join(parts)
                     except Exception:
                         pass
-                if not extracted_text.strip():
-                    try:
-                        import pdfplumber
-                        with pdfplumber.open(io.BytesIO(fb)) as pdf_obj:
-                            parts = []
-                            for i, page in enumerate(pdf_obj.pages):
-                                parts.append("--- Page " + str(i+1) + " ---\n" + (page.extract_text() or ""))
-                            extracted_text = "\n\n".join(parts)
-                    except Exception:
-                        pass
                 st.session_state.pending_file = {"b64": b64, "mime": ft, "bytes": fb, "text": extracted_text}
                 st.session_state.pending_file_type = "pdf"
                 st.session_state.pending_file_name = fn
                 if extracted_text.strip():
                     wc = len(extracted_text.split())
                     st.success(f"✅ PDF Ready: {fn} ({wc} words extracted)")
-                    with st.expander("👁️ Preview extracted text"):
-                        st.text(extracted_text[:1500] + ("..." if len(extracted_text) > 1500 else ""))
                 else:
                     st.error("❌ Could not extract text. Run: pip install pymupdf")
 
     if st.session_state.pending_file:
         st.markdown(f"<div class='attach-badge'>📎 Ready: {st.session_state.pending_file_name}</div>", unsafe_allow_html=True)
 
-    # ── VOICE INPUT COMPONENT ────────────────────────
+    # ── VOICE INPUT via st.audio_input (native Streamlit — no iframe issue) ──
     voice_lang_code = get_voice_lang_code()
-    voice_html = f"""
-    <div style="display:flex;align-items:center;gap:14px;margin:8px 0 4px 0;flex-wrap:wrap;">
-        <button id="voiceBtn" onclick="toggleVoice()" style="
-            background:linear-gradient(135deg,#7c5cbf,#a855f7);
-            border:none;border-radius:14px;padding:12px 26px;
-            color:white;font-family:'Space Mono',monospace;
-            font-size:.75rem;letter-spacing:2px;cursor:pointer;
-            box-shadow:0 4px 20px rgba(124,92,191,.5);
-            transition:all .25s ease;font-weight:700;
-        ">🎤 &nbsp;SPEAK</button>
-        <div style="display:flex;flex-direction:column;gap:4px;">
-            <span id="voiceStatus" style="font-family:'Space Mono',monospace;font-size:.6rem;color:#2dd4bf;letter-spacing:2px;display:none;">● LISTENING...</span>
-            <span id="voiceText" style="font-family:'Space Mono',monospace;font-size:.65rem;color:#f5a623;letter-spacing:1px;max-width:400px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></span>
-            <span id="voiceSending" style="font-family:'Space Mono',monospace;font-size:.6rem;color:#a855f7;letter-spacing:2px;display:none;">⚡ SENDING...</span>
-        </div>
-    </div>
-    <div style="font-family:'Space Mono',monospace;font-size:.48rem;color:#2e2e50;letter-spacing:1px;margin-bottom:6px;">
-        🎤 বলুন → Auto Send → 🔊 উত্তর শুনুন &nbsp;|&nbsp; Chrome required &nbsp;|&nbsp; Lang: {voice_lang_code}
-    </div>
-    <script>
-    let recognition = null;
-    let listening = false;
 
-    function toggleVoice() {{
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRecognition) {{
-            alert('❌ Voice not supported. Use Chrome browser.');
-            return;
-        }}
-        if (listening) {{ recognition.stop(); return; }}
+    st.markdown("""<div style='font-family:"Space Mono",monospace;font-size:.56rem;color:#5a5a80;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;'>
+        🎤 VOICE INPUT — রেকর্ড করুন → Auto Transcribe → Send
+    </div>""", unsafe_allow_html=True)
 
-        recognition = new SpeechRecognition();
-        recognition.continuous = false;
-        recognition.interimResults = true;
-        recognition.lang = '{voice_lang_code}';
+    audio_col, info_col = st.columns([2, 3])
+    with audio_col:
+        audio_data = st.audio_input("🎤 Tap to Record", label_visibility="collapsed", key="voice_recorder")
 
-        recognition.onstart = () => {{
-            listening = true;
-            document.getElementById('voiceBtn').innerHTML = '⏹ &nbsp;STOP';
-            document.getElementById('voiceBtn').style.background = 'linear-gradient(135deg,#ef4444,#dc2626)';
-            document.getElementById('voiceStatus').style.display = 'inline';
-            document.getElementById('voiceText').textContent = '';
-            document.getElementById('voiceSending').style.display = 'none';
-        }};
+    with info_col:
+        if audio_data:
+            st.markdown("""<div style='background:rgba(45,212,191,.08);border:1px solid rgba(45,212,191,.25);border-radius:12px;padding:10px 14px;font-family:"Space Mono",monospace;font-size:.6rem;color:#2dd4bf;letter-spacing:1px;'>
+                ✔ Audio recorded! Transcribing...
+            </div>""", unsafe_allow_html=True)
+        else:
+            st.markdown("""<div style='background:rgba(124,92,191,.06);border:1px solid rgba(124,92,191,.2);border-radius:12px;padding:10px 14px;font-family:"Space Mono",monospace;font-size:.6rem;color:#7c5cbf;letter-spacing:1px;'>
+                🎤 Mic button click koro → বলুন → থামুন → Auto send
+            </div>""", unsafe_allow_html=True)
 
-        recognition.onresult = (e) => {{
-            let interim = '', final_text = '';
-            for (let i = e.resultIndex; i < e.results.length; i++) {{
-                if (e.results[i].isFinal) final_text += e.results[i][0].transcript;
-                else interim += e.results[i][0].transcript;
-            }}
-            document.getElementById('voiceText').textContent = final_text || interim;
+    # Transcribe audio if newly recorded
+    if audio_data and id(audio_data) != st.session_state.get("last_audio_id"):
+        st.session_state["last_audio_id"] = id(audio_data)
+        transcribed = ""
+        err_msg = ""
+        try:
+            import io as _io
+            import wave
+            import struct
+            import tempfile, os
 
-            if (final_text) {{
-                try {{
-                    const doc = window.parent.document;
-                    const inputs = doc.querySelectorAll('input[type="text"]');
-                    let targetInput = null;
-                    inputs.forEach(inp => {{
-                        if (inp.placeholder && inp.placeholder.toLowerCase().includes('sanju')) targetInput = inp;
-                    }});
-                    if (targetInput) {{
-                        const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
-                        nativeSetter.call(targetInput, final_text);
-                        targetInput.dispatchEvent(new Event('input', {{ bubbles: true }}));
-                        targetInput.dispatchEvent(new Event('change', {{ bubbles: true }}));
-                        document.getElementById('voiceStatus').style.display = 'none';
-                        document.getElementById('voiceSending').style.display = 'inline';
-                        setTimeout(() => {{
-                            const buttons = doc.querySelectorAll('button');
-                            buttons.forEach(b => {{
-                                if (b.textContent.trim().includes('Send') || b.textContent.trim().includes('↑')) b.click();
-                            }});
-                            document.getElementById('voiceSending').style.display = 'none';
-                        }}, 700);
-                    }}
-                }} catch(err) {{ console.warn('Voice inject error:', err); }}
-            }}
-        }};
+            audio_data.seek(0)
+            raw_bytes = audio_data.read()
 
-        recognition.onend = () => {{
-            listening = false;
-            document.getElementById('voiceBtn').innerHTML = '🎤 &nbsp;SPEAK';
-            document.getElementById('voiceBtn').style.background = 'linear-gradient(135deg,#7c5cbf,#a855f7)';
-            document.getElementById('voiceStatus').style.display = 'none';
-        }};
+            # Write to temp file and detect format
+            suffix = ".webm"
+            with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+                tmp.write(raw_bytes)
+                tmp_path = tmp.name
 
-        recognition.onerror = (e) => {{
-            listening = false;
-            document.getElementById('voiceBtn').innerHTML = '🎤 &nbsp;SPEAK';
-            document.getElementById('voiceBtn').style.background = 'linear-gradient(135deg,#7c5cbf,#a855f7)';
-            document.getElementById('voiceStatus').style.display = 'none';
-            document.getElementById('voiceSending').style.display = 'none';
-            if (e.error === 'network') alert('❌ Chrome browser ব্যবহার করো।');
-            else if (e.error !== 'no-speech') alert('Mic error: ' + e.error);
-        }};
+            wav_path = tmp_path.replace(".webm", ".wav")
+            converted = False
 
-        recognition.start();
-    }}
-    </script>
-    """
-    components.html(voice_html, height=90)
+            # Try ffmpeg (if installed)
+            ret = os.system(f'ffmpeg -y -i "{tmp_path}" -ar 16000 -ac 1 "{wav_path}" -loglevel quiet 2>nul')
+            if ret == 0 and os.path.exists(wav_path) and os.path.getsize(wav_path) > 1000:
+                converted = True
+
+            # Try soundfile if ffmpeg failed
+            if not converted:
+                try:
+                    import soundfile as sf
+                    import numpy as np
+                    data, samplerate = sf.read(_io.BytesIO(raw_bytes))
+                    if data.ndim > 1:
+                        data = data[:, 0]
+                    data_int16 = (data * 32767).astype(np.int16)
+                    with wave.open(wav_path, 'wb') as wf:
+                        wf.setnchannels(1)
+                        wf.setsampwidth(2)
+                        wf.setframerate(samplerate)
+                        wf.writeframes(data_int16.tobytes())
+                    converted = True
+                except Exception:
+                    pass
+
+            # Try pydub if others failed
+            if not converted:
+                try:
+                    from pydub import AudioSegment
+                    seg = AudioSegment.from_file(_io.BytesIO(raw_bytes))
+                    seg = seg.set_frame_rate(16000).set_channels(1)
+                    seg.export(wav_path, format="wav")
+                    converted = True
+                except Exception:
+                    pass
+
+            if converted and os.path.exists(wav_path):
+                import speech_recognition as sr
+                recognizer = sr.Recognizer()
+                with sr.AudioFile(wav_path) as source:
+                    audio_recorded = recognizer.record(source)
+                try:
+                    transcribed = recognizer.recognize_google(audio_recorded, language=voice_lang_code)
+                except sr.UnknownValueError:
+                    try:
+                        transcribed = recognizer.recognize_google(audio_recorded, language="en-US")
+                    except sr.UnknownValueError:
+                        err_msg = "⚠️ কিছু শোনা যায়নি — একটু জোরে বলুন বা কাছে ধরুন।"
+                except sr.RequestError as e:
+                    err_msg = f"⚠️ Internet error: {e}"
+                finally:
+                    try: os.unlink(wav_path)
+                    except: pass
+            else:
+                err_msg = "⚠️ Audio convert হয়নি। Terminal-e run koro:\n`pip install pydub soundfile` এবং ffmpeg install koro।"
+
+            try: os.unlink(tmp_path)
+            except: pass
+
+        except ImportError:
+            err_msg = "⚠️ Run: `pip install SpeechRecognition soundfile`"
+        except Exception as e:
+            err_msg = f"⚠️ Error: {str(e)[:120]}"
+
+        if transcribed:
+            st.success(f"✔ শুনলাম: **{transcribed}**")
+            st.session_state.preset_input = transcribed
+            st.session_state.auto_send = True
+            st.rerun()
+        elif err_msg:
+            st.warning(err_msg)
+
 
     # INPUT ROW
     st.markdown("<div style='height:4px'></div>", unsafe_allow_html=True)
@@ -667,9 +674,8 @@ with main_col:
                     lc_msgs.append(HumanMessage(content=prompt))
                 else:
                     lc_msgs.append(HumanMessage(content=(
-                        f"The user attached a PDF named '{fn}' but text could not be extracted "
-                        f"(likely a scanned/image-based PDF). Please let the user know and suggest "
-                        f"using an OCR tool. User's message: {user_input}"
+                        f"The user attached a PDF named '{fn}' but text could not be extracted. "
+                        f"User's message: {user_input}"
                     )))
 
             st.session_state.pending_file      = None
@@ -705,6 +711,9 @@ with main_col:
                 </div>
             </div>""", unsafe_allow_html=True)
 
+        # ── ADD USER MSG TO HISTORY NOW ──
+        st.session_state.messages.append(("user", user_input, attach_meta))
+
         try:
             import threading
             t0  = time.time()
@@ -722,7 +731,7 @@ with main_col:
                 t.join(timeout=0.55)
                 if not t.is_alive():
                     for ri in range(si+1, len(STEPS)):
-                        show_thinking(ri); time.sleep(0.1)
+                        show_thinking(ri); time.sleep(0.08)
                     break
             t.join()
 
@@ -733,14 +742,43 @@ with main_col:
             tp.empty()
 
             rl = "BN" if use_bn else "EN"
-            st.session_state.messages.append(("user", user_input, attach_meta))
             st.session_state.messages.append(("assistant", reply, None, rl))
             st.session_state.response_times.append(elapsed)
+
+            # ── STREAMING / TYPEWRITER EFFECT ──────────
+            # Show the latest AI response with typewriter animation
+            stream_placeholder = st.empty()
+            badge = "<span class='lang-badge'>বাংলা</span>" if rl == "BN" else ""
+
+            # Typewriter: reveal word by word
+            words = reply.split(" ")
+            displayed = ""
+            CHUNK = 3  # reveal 3 words at a time for speed
+            for wi in range(0, len(words), CHUNK):
+                chunk = " ".join(words[wi:wi+CHUNK])
+                displayed += ("" if wi == 0 else " ") + chunk
+                stream_placeholder.markdown(f"""<div class='msg-wrap'>
+                    <div class='av av-ai'>✦</div>
+                    <div class='bubble bubble-ai'>
+                        <div class='bubble-meta'><span class='bubble-meta-dot'></span>SANJU · {model_name}{badge}</div>
+                        {displayed}<span class='typing-cursor'></span>
+                    </div>
+                </div>""", unsafe_allow_html=True)
+                time.sleep(0.025)
+
+            # Final render without cursor
+            stream_placeholder.markdown(f"""<div class='msg-wrap'>
+                <div class='av av-ai'>✦</div>
+                <div class='bubble bubble-ai'>
+                    <div class='bubble-meta'><span class='bubble-meta-dot'></span>SANJU · {model_name}{badge}</div>
+                    {reply}
+                </div>
+            </div>""", unsafe_allow_html=True)
 
             # ── STORE TTS → play after rerun ────────────
             if st.session_state.get("tts_enabled", True):
                 tts_lang = "bn-BD" if rl == "BN" else "en-US"
-                clean_reply = re.sub(r'[#*`_~<>\[\]()]', '', reply)[:500]
+                clean_reply = re.sub(r'[#*`_~<>\[\]()]', '', reply)[:600]
                 st.session_state["tts_pending"] = clean_reply
                 st.session_state["tts_lang_pending"] = tts_lang
 
@@ -748,4 +786,5 @@ with main_col:
 
         except Exception as e:
             tp.empty()
+            st.session_state.messages.pop()  # remove user msg on error
             st.error(f"❌ API Error: {e}")
